@@ -10,13 +10,24 @@
 				width: 20px;
 				height: 75px;
 				background-color: teal;
+				margin-right: 2px;
 			}
 		</style>
 		<body>
 			<script type="text/javascript">
 				var dataset = [ 5, 10, 15, 20, 25 ];
+				d3.select("body")
+					.selectAll("div")
+					.data(dataset)
+					.enter()
+					.append("div")
+					.attr("class", "bar")
+					.style("height", function(d) {
+						var barHeight = d * 5;
+						return barHeight + "px";
+					});
 			</script>
-			<div class="bar"></div>
+			<div></div>
 		</body>
 	</head>
 </html>
