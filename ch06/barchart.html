@@ -19,7 +19,7 @@
                         11, 12, 15, 20, 18, 27, 16, 18, 23, 25 ];
 
         var svg = d3.select("body").selectAll("div")
-                    .data("dataset")
+                    .data(dataset)
                     .enter()
                     .append("div")
                     .attr("class", "bar")
