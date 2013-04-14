@@ -24,16 +24,21 @@
       }
     </style>
     <body>
+      <p>Click on this text to update the chart with new data values as many times as you like!</p>
       <script type="text/javascript">
-        var dataset = [ ];
-        var numDataPoints = 50;
-        var xRange = Math.random() * 1000;
-        var yRange = Math.random() * 1000;
-        for (var i = 0; i < numDataPoints; i++) {
-          var newNumber1 = Math.floor(Math.random() * xRange);
-          var newNumber2 = Math.floor(Math.random() * yRange);
-          dataset.push([newNumber1, newNumber2]);
+        function randomDataSet(numDataPoints, maxX, maxY) {
+          var dataset = [ ];
+          var xRange = Math.random() * maxX;
+          var yRange = Math.random() * maxY;
+          for (var i = 0; i < numDataPoints; i++) {
+            var newNumber1 = Math.floor(Math.random() * xRange);
+            var newNumber2 = Math.floor(Math.random() * yRange);
+            dataset.push([newNumber1, newNumber2]);
+          }
+          return dataset;
         }
+
+        var dataset = randomDataSet(50, 1000, 1000);
         
         var w = 500;
         var h = 300;
