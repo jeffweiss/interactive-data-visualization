@@ -21,6 +21,8 @@
         
         var w = 600;
         var h = 250;
+        
+        var maxValue = 100;
 
         var svg = d3.select("body")
                     .append("svg")
@@ -74,9 +76,12 @@
             var numValues = dataset.length;
             dataset = [];
             for (var i = 0; i < numValues; i++) {
-              var newNumber = Math.floor(Math.random() * 25);
+              var newNumber = Math.floor(Math.random() * maxValue);
               dataset.push(newNumber);
             }
+            
+            yScale.domain([0, d3.max(dataset)]);
+            
             svg.selectAll("rect")
                .data(dataset)
                .transition()
