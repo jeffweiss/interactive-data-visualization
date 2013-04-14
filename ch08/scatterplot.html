@@ -12,6 +12,16 @@
         background-color: teal;
         margin-right: 2px;
       }
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;
+      }
+      .axis text {
+        font-family: sans-serif;
+        font-size: 11px;
+      }
     </style>
     <body>
       <script type="text/javascript">
@@ -85,7 +95,10 @@
            .attr("font-size", "11px")
            .attr("fill", "red");
 
-        svg.append("g").call(xAxis);
+        svg.append("g")
+           .attr("class", "axis")
+           .attr("transform", "translate(0," + (h - padding) + ")")
+           .call(xAxis);
       </script>
       <div></div>
     </body>
