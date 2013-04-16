@@ -12,6 +12,15 @@
         background-color: teal;
         margin-right: 2px;
       }
+      rect {
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+      }
+      rect:hover {
+        fill: orange;
+      }
     </style>
     <body>
       <p id="add">Add a new data value</p>
@@ -42,6 +51,8 @@
         var h = 250;
         
         var maxValue = 25;
+        
+        var sortOrder = false;
 
         var svg = d3.select("body")
                     .append("svg")
@@ -76,16 +87,6 @@
            })
            .on("click", function(d) {
              sortBars();
-           })
-           .on("mouseover", function() {
-             d3.select(this)
-               .attr("fill", "orange");
-           })
-           .on("mouseout", function(d){
-             d3.select(this)
-               .transition()
-               .duration(250)
-               .attr("fill", "rgb(0, 0, " + (d.value * 10) + ")");
            });
         svg.selectAll("text")
            .data(dataset, key)
@@ -155,16 +156,6 @@
                 })
                 .on("click", function(d) {
                   sortBars();
-                })
-                .on("mouseover", function() {
-                  d3.select(this)
-                    .attr("fill", "orange");
-                })
-                .on("mouseout", function(d){
-                  d3.select(this)
-                    .transition()
-                    .duration(250)
-                    .attr("fill", "rgb(0, 0, " + (d.value * 10) + ")");
                 });
             
             bars.transition()
@@ -206,9 +197,15 @@
           });
           
           var sortBars = function() {
+            sortOrder = !sortOrder;
+            
             svg.selectAll("rect")
                .sort(function(a, b) {
-                 return d3.ascending(a.value, b.value);
+                 if (sortOrder) {
+                   return d3.ascending(a.value, b.value);
+                 } else {
+                   return d3.descending(a.value, b.value);
+                 }
                })
                .transition()
                .duration(1000)
@@ -217,7 +214,11 @@
                });
             svg.selectAll("text")
                .sort(function(a, b) {
-                 return d3.ascending(a.value, b.value);
+                 if (sortOrder) {
+                   return d3.ascending(a.value, b.value);
+                 } else {
+                   return d3.descending(a.value, b.value);
+                 }
                })
                .transition()
                .duration(1000)
