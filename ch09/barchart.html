@@ -12,6 +12,15 @@
         background-color: teal;
         margin-right: 2px;
       }
+      rect {
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+      }
+      rect:hover {
+        fill: orange;
+      }
     </style>
     <body>
       <p>Click on this text to update the chart with new data values as many times as you like!</p>
@@ -70,7 +79,7 @@
            .attr("fill", "white")
            .attr("text-anchor", "middle");
         
-        var duration = 5000;
+        var duration = 500;
         var ease = "cubic-in-out";
         
         d3.select("p")
