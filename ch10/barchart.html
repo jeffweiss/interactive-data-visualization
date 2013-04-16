@@ -75,7 +75,7 @@
              return "rgb(0, 0, " + (d.value * 10) + ")";
            })
            .on("click", function(d) {
-             console.log(d);
+             sortBars();
            })
            .on("mouseover", function() {
              d3.select(this)
@@ -154,7 +154,7 @@
                   return "rgb(0, 0, " + (d.value * 10) + ")";
                 })
                 .on("click", function(d) {
-                  console.log(d);
+                  sortBars();
                 })
                 .on("mouseover", function() {
                   d3.select(this)
@@ -204,6 +204,27 @@
                 });
           
           });
+          
+          var sortBars = function() {
+            svg.selectAll("rect")
+               .sort(function(a, b) {
+                 return d3.ascending(a.value, b.value);
+               })
+               .transition()
+               .duration(1000)
+               .attr("x", function(d, i) {
+                 return xScale(i);
+               });
+            svg.selectAll("text")
+               .sort(function(a, b) {
+                 return d3.ascending(a.value, b.value);
+               })
+               .transition()
+               .duration(1000)
+               .attr("x", function(d, i){
+                 return xScale(i) + xScale.rangeBand() / 2;
+               });
+          };
       </script>
       <div></div>
     </body>
