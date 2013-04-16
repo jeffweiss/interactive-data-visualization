@@ -23,7 +23,8 @@
       }
     </style>
     <body>
-      <p>Click on this text to remove a data value from the chart!</p>
+      <p id="add">Add a new data value</p>
+      <p id="remove">Remove a data value</p>
       <script type="text/javascript">
         var dataset = [ { key: 0, value: 5}, 
                         { key: 1, value: 10}, 
@@ -103,9 +104,20 @@
         var duration = 500;
         var ease = "cubic-in-out";
         
-        d3.select("p")
+        d3.selectAll("p")
           .on("click", function() {
-            dataset.shift();
+            var paragraphID = d3.select(this).attr("id");
+            if (paragraphID == "add") {
+              var newNumber = Math.floor(Math.random() * maxValue);
+              var lastKeyValue = dataset[dataset.length - 1].key;
+              console.log(lastKeyValue);
+              dataset.push({
+                key: lastKeyValue + 1,
+                value: newNumber
+              });
+            } else {
+              dataset.shift();              
+            }
             console.log(dataset);
             
             xScale.domain(d3.range(dataset.length));
@@ -125,6 +137,20 @@
                 .duration(duration)
                 .attr("x", -xScale.rangeBand())
                 .remove();
+                
+            bars.enter()
+                .append("rect")
+                .attr("x", w)
+                .attr("y", function(d) {
+                  return h - yScale(d.value);
+                })
+                .attr("width", xScale.rangeBand())
+                .attr("height", function(d) {
+                  return yScale(d.value);
+                })
+                .attr("fill", function(d) {
+                  return "rgb(0, 0, " + (d.value * 10) + ")";
+                });
             
             bars.transition()
                 .duration(duration)
