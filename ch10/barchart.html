@@ -82,6 +82,9 @@
            })
            .attr("fill", function(d) {
              return "rgb(0, 0, " + (d.value * 10) + ")";
+           })
+           .on("click", function(d) {
+             console.log(d);
            });
         svg.selectAll("text")
            .data(dataset, key)
@@ -110,7 +113,6 @@
             if (paragraphID == "add") {
               var newNumber = Math.floor(Math.random() * maxValue);
               var lastKeyValue = dataset[dataset.length - 1].key;
-              console.log(lastKeyValue);
               dataset.push({
                 key: lastKeyValue + 1,
                 value: newNumber
@@ -118,7 +120,6 @@
             } else {
               dataset.shift();              
             }
-            console.log(dataset);
             
             xScale.domain(d3.range(dataset.length));
             yScale.domain([0, d3.max(dataset, function(d) { return d.value; })]);
@@ -150,6 +151,9 @@
                 })
                 .attr("fill", function(d) {
                   return "rgb(0, 0, " + (d.value * 10) + ")";
+                })
+                .on("click", function(d) {
+                  console.log(d);
                 });
             
             bars.transition()
