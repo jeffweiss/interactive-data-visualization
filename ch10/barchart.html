@@ -208,6 +208,9 @@
                  }
                })
                .transition()
+               .delay(function(d, i) {
+                 return i * 50;
+               })
                .duration(1000)
                .attr("x", function(d, i) {
                  return xScale(i);
@@ -221,6 +224,9 @@
                  }
                })
                .transition()
+               .delay(function(d, i) {
+                 return i * 50;
+               })
                .duration(1000)
                .attr("x", function(d, i){
                  return xScale(i) + xScale.rangeBand() / 2;
