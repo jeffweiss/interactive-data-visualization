@@ -12,15 +12,6 @@
         background-color: teal;
         margin-right: 2px;
       }
-      rect {
-        -moz-transition: all 0.3s;
-        -o-transition: all 0.3s;
-        -webkit-transition: all 0.3s;
-        transition: all 0.3s;
-      }
-      rect:hover {
-        fill: orange;
-      }
     </style>
     <body>
       <p id="add">Add a new data value</p>
@@ -85,6 +76,16 @@
            })
            .on("click", function(d) {
              console.log(d);
+           })
+           .on("mouseover", function() {
+             d3.select(this)
+               .attr("fill", "orange");
+           })
+           .on("mouseout", function(d){
+             d3.select(this)
+               .transition()
+               .duration(250)
+               .attr("fill", "rgb(0, 0, " + (d.value * 10) + ")");
            });
         svg.selectAll("text")
            .data(dataset, key)
@@ -154,6 +155,16 @@
                 })
                 .on("click", function(d) {
                   console.log(d);
+                })
+                .on("mouseover", function() {
+                  d3.select(this)
+                    .attr("fill", "orange");
+                })
+                .on("mouseout", function(d){
+                  d3.select(this)
+                    .transition()
+                    .duration(250)
+                    .attr("fill", "rgb(0, 0, " + (d.value * 10) + ")");
                 });
             
             bars.transition()
