@@ -43,6 +43,9 @@
 				      return "translate(" + arc.centroid(d) + ")";
 				    })
 				    .attr("text-anchor", "middle")
+				    .attr("font-family", "sans-serif")
+				    .attr("fill", "white")
+				    .attr("font-size", "13px")
 				    .text(function(d) {
 				      return d.value;
 				    })
