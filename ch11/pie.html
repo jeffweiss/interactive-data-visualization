@@ -37,6 +37,15 @@
 				      return color(i);
 				    })
 				    .attr("d", arc);
+				    
+				arcs.append("text")
+				    .attr("transform", function(d) {
+				      return "translate(" + arc.centroid(d) + ")";
+				    })
+				    .attr("text-anchor", "middle")
+				    .text(function(d) {
+				      return d.value;
+				    })
 			</script>
 		</body>
 	</head>
