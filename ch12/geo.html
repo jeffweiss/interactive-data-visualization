@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3 Page Template</title>
+		<script type="text/javascript" src="../d3/d3.v3.js"></script>
+		<body>
+			<script type="text/javascript">
+			  var path = d3.geo.path();
+			  
+			  var w = 500;
+			  var h = 300;
+			  
+			  var svg = d3.select("body")
+			              .append("svg")
+			              .attr("width", w)
+			              .attr("height", h);
+			  
+			  d3.json("us-states.json", function(json) {
+			    svg.selectAll("path")
+			       .data(json.features)
+			       .enter()
+			       .append("path")
+			       .attr("d", path);
+			  })
+			</script>
+		</body>
+	</head>
+</html>
