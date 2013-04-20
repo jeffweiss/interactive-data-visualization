@@ -71,7 +71,7 @@
 			                      return xScale(i);
 			                    })
 			                    .attr("y", function(d) {
-			                      return yScale(d.y0);
+			                      return h - yScale(d.y0) - yScale(d.y);
 			                    })
 			                    .attr("height", function(d) {
 			                      return yScale(d.y);
