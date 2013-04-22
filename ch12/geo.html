@@ -80,9 +80,9 @@
   			         .style("opacity", 0)
   			         .transition()
   			         .delay(function(d, i) {
-  			           return 250 * i;
+  			           return 100 * i;
   			         })
-  			         .duration(500)
+  			         .duration(400)
   			         .each("start", function(d) {
   			          var shadow = svg.insert("text")
   			                        .attr("id", "city-shadow")
@@ -99,7 +99,6 @@
        			                    .attr("font-weight", "bold")
        			                    .attr("font-family", "sans-serif");
   			           var circle = d3.select(this);
-  			           circle.style("opacity", 1);
   			           var shadowOffset = -1;
   			           var labelX = parseFloat(circle.attr("cx"));
   			           var labelY = parseFloat(circle.attr("cy")) - 15;
@@ -109,6 +108,37 @@
   			           label.attr("x", labelX)
   			                .attr("y", labelY)
   			                .text(d.place);
+   			           circle.style("opacity", 1)
+   			                 .on('mouseenter', function(d) {
+           			          var shadow = svg.insert("text")
+           			                        .attr("id", "city" +d.rank +"-shadow")
+                			                    .style("fill", "white")
+                			                    .style("opacity", 0.75)
+                			                    .attr("text-anchor", "middle")
+                			                    .attr("font-size", "20px")
+                			                    .attr("font-weight", "bold")
+                			                    .attr("font-family", "sans-serif");
+                			      var label = svg.insert("text")
+                			                    .attr("id", "city"+ d.rank + "-label")
+                			                    .attr("text-anchor", "middle")
+                			                    .attr("font-size", "20px")
+                			                    .attr("font-weight", "bold")
+                			                    .attr("font-family", "sans-serif");
+           			           var circle = d3.select(this);
+           			           var shadowOffset = -1;
+           			           var labelX = parseFloat(circle.attr("cx"));
+           			           var labelY = parseFloat(circle.attr("cy")) - 15;
+           			           shadow.attr("x", (labelX + shadowOffset))
+           			                 .attr("y", labelY + shadowOffset)
+           			                 .text(d.place);
+           			           label.attr("x", labelX)
+           			                .attr("y", labelY)
+           			                .text(d.place);
+   			                 })
+   			                 .on('mouseleave', function(d) {
+          			           d3.select("#city"+d.rank + "-label").remove();
+          			           d3.select("#city"+d.rank + "-shadow").remove();
+   			                 });
   			         })
   			         .attr("r", function(d) {
   			           return Math.sqrt(parseInt(d.population) * 0.00004);
