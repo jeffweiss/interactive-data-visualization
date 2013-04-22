@@ -75,15 +75,50 @@
   			         .attr("cy", function(d) {
   			           return projection([d.lon, d.lat])[1];
   			         })
+  			         .attr("r", 15)
+  			         .style("fill", "magenta")
+  			         .style("opacity", 0)
+  			         .transition()
+  			         .delay(function(d, i) {
+  			           return 250 * i;
+  			         })
+  			         .duration(500)
+  			         .each("start", function(d) {
+  			          var shadow = svg.insert("text")
+  			                        .attr("id", "city-shadow")
+       			                    .style("fill", "white")
+       			                    .style("opacity", 0.75)
+       			                    .attr("text-anchor", "middle")
+       			                    .attr("font-size", "20px")
+       			                    .attr("font-weight", "bold")
+       			                    .attr("font-family", "sans-serif");
+       			      var label = svg.insert("text")
+       			                    .attr("id", "city-label")
+       			                    .attr("text-anchor", "middle")
+       			                    .attr("font-size", "20px")
+       			                    .attr("font-weight", "bold")
+       			                    .attr("font-family", "sans-serif");
+  			           var circle = d3.select(this);
+  			           circle.style("opacity", 1);
+  			           var shadowOffset = -1;
+  			           var labelX = parseFloat(circle.attr("cx"));
+  			           var labelY = parseFloat(circle.attr("cy")) - 15;
+  			           shadow.attr("x", (labelX + shadowOffset))
+  			                 .attr("y", labelY + shadowOffset)
+  			                 .text(d.place);
+  			           label.attr("x", labelX)
+  			                .attr("y", labelY)
+  			                .text(d.place);
+  			         })
   			         .attr("r", function(d) {
   			           return Math.sqrt(parseInt(d.population) * 0.00004);
   			         })
   			         .style("fill", "yellow")
   			         .style("opacity", 0.75)
-  			         .append("title")
-  			         .text(function(d) {
-  			           return d.place;
-  			          });
+  			         .each("end", function(d) {
+  			           d3.select("#city-label").remove();
+  			           d3.select("#city-shadow").remove();
+  			         })
   			    });
   			  });
 
