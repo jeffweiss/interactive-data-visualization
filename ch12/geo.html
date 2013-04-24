@@ -80,7 +80,7 @@
   			         .style("opacity", 0)
   			         .transition()
   			         .delay(function(d, i) {
-  			           return 100 * i;
+  			           return 250 * i;
   			         })
   			         .duration(400)
   			         .each("start", function(d) {
@@ -99,7 +99,7 @@
        			                    .attr("font-weight", "bold")
        			                    .attr("font-family", "sans-serif");
   			           var circle = d3.select(this);
-  			           var shadowOffset = -1;
+  			           var shadowOffset = 1;
   			           var labelX = parseFloat(circle.attr("cx"));
   			           var labelY = parseFloat(circle.attr("cy")) - 15;
   			           shadow.attr("x", (labelX + shadowOffset))
