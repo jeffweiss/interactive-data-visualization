@@ -18,7 +18,7 @@
 			              
 			  var projection = d3.geo.albersUsa()
 			                     .translate([w/2, h/2])
-			                     .scale([1000]);
+			                     .scale([700]);
 			                     
 			  var color = d3.scale.quantize()
 			                .range(["rgb(237,248,233)", "rgb(186,228,179)",
@@ -34,7 +34,7 @@
 			      d3.max(data, function(d) { return d.value; })
 			    ]);
 
-  			  d3.json("us-counties.json", function(json) {
+  			  d3.json("us-counties-500k.json", function(json) {
   			    
   			    for (var i = 0; i < data.length; i++) {
   			      var dataState = data[i].state;
