@@ -8,8 +8,8 @@
 			<script type="text/javascript">
 			  var path = d3.geo.path();
 			  
-			  var w = 500;
-			  var h = 300;
+			  var w = 800;
+			  var h = 600;
 			  
 			  var svg = d3.select("body")
 			              .append("svg")
@@ -18,7 +18,7 @@
 			              
 			  var projection = d3.geo.albersUsa()
 			                     .translate([w/2, h/2])
-			                     .scale([500]);
+			                     .scale([1000]);
 			                     
 			  var color = d3.scale.quantize()
 			                .range(["rgb(237,248,233)", "rgb(186,228,179)",
@@ -34,7 +34,7 @@
 			      d3.max(data, function(d) { return d.value; })
 			    ]);
 
-  			  d3.json("us-states.json", function(json) {
+  			  d3.json("us-counties.json", function(json) {
   			    
   			    for (var i = 0; i < data.length; i++) {
   			      var dataState = data[i].state;
