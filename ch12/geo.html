@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>D3 Page Template</title>
-		<script type="text/javascript" src="../d3/d3.v3.js"></script>
-		<body>
-			<script type="text/javascript">
-  		  function dataElement(d) {
-  		    return (parseInt(d.Dividends) + parseInt(d.Interest)) / d.AGI;
-  		  }
+  <head>
+    <meta charset="utf-8">
+    <title>D3 Page Template</title>
+    <script type="text/javascript" src="../d3/d3.v3.js"></script>
+    <body>
+      <script type="text/javascript">
+        function dataElement(d) {
+          return (parseInt(d.Dividends) + parseInt(d.Interest)) / d.AGI;
+        }
 
-			  var path = d3.geo.path();
-			  
-			  var w = 1000;
-			  var h = 500;
-			  
-			  var svg = d3.select("body")
-			              .append("svg")
-			              .attr("width", w)
-			              .attr("height", h);
-			              
-			  var projection = d3.geo.albersUsa()
-			                     .translate([w/2, h/2])
-			                     .scale([1000]);
-			                     
-			  var color = d3.scale.quantize()
-			                .range(["rgb(237,248,233)", "rgb(186,228,179)",
-			                        "rgb(116,196,118)", "rgb(49,163,84)",
-			                        "rgb(0,109,44)"]);
-			  
-			  var path = d3.geo.path()
-			               .projection(projection);
+        var path = d3.geo.path();
+        
+        var w = 1000;
+        var h = 500;
+        
+        var svg = d3.select("body")
+                    .append("svg")
+                    .attr("width", w)
+                    .attr("height", h);
+                    
+        var projection = d3.geo.albersUsa()
+                           .translate([w/2, h/2])
+                           .scale([1000]);
+                           
+        var color = d3.scale.quantize()
+                      .range(["rgb(237,248,233)", "rgb(186,228,179)",
+                              "rgb(116,196,118)", "rgb(49,163,84)",
+                              "rgb(0,109,44)"]);
+        
+        var path = d3.geo.path()
+                     .projection(projection);
 
-			  d3.csv("countyincome07.csv", function(data) {
-			    color.domain([
-			      d3.min(data, dataElement),
-			      d3.max(data, dataElement)
-			    ]);
+        d3.csv("countyincome07.csv", function(data) {
+          color.domain([
+            d3.min(data, dataElement),
+            d3.max(data, dataElement)
+          ]);
 
             d3.json("us-counties-5m.json", function(county) {
               var counties = svg.append("g")
@@ -60,113 +60,113 @@
                  .enter()
                  .append("path")
                  .attr("d", path)
-  			         .style("fill", function(d) {
-  			           var value = d.properties.NonWagePercentofAGI;
-  			           if (value) {
-  			             return color(value);
-  			           } else {
-  			             return "#ccc";
-  			           }
-  			         })
+                 .style("fill", function(d) {
+                   var value = d.properties.NonWagePercentofAGI;
+                   if (value) {
+                     return color(value);
+                   } else {
+                     return "#ccc";
+                   }
+                 })
                  .style("stroke", "gray")
                  .attr("stroke-width", "0.25");
 
-       			    d3.csv("us-cities.csv", function(data) {
-       			      var cities = svg.append("g")
-       			                      .attr("id", "cities");
-       			      cities.selectAll("circle")
-       			         .data(data)
-       			         .enter()
-       			         .append("circle")
-       			         .attr("cx", function(d) {
-       			           return projection([d.lon, d.lat])[0];
-       			         })
-       			         .attr("cy", function(d) {
-       			           return projection([d.lon, d.lat])[1];
-       			         })
-       			         .attr("r", 15)
-       			         .style("fill", "magenta")
-       			         .style("opacity", 0)
-       			         .transition()
-       			         .delay(function(d, i) {
-       			           return 250 * i;
-       			         })
-       			         .duration(400)
-       			         .each("start", function(d) {
-       			          var shadow = svg.insert("text")
-       			                        .attr("id", "city-shadow")
-            			                    .style("fill", "white")
-            			                    .style("opacity", 0.75)
-            			                    .attr("text-anchor", "middle")
-            			                    .attr("font-size", "20px")
-            			                    .attr("font-weight", "bold")
-            			                    .attr("font-family", "sans-serif");
-            			      var label = svg.insert("text")
-            			                    .attr("id", "city-label")
-            			                    .attr("text-anchor", "middle")
-            			                    .attr("font-size", "20px")
-            			                    .attr("font-weight", "bold")
-            			                    .attr("font-family", "sans-serif");
-       			           var circle = d3.select(this);
-       			           var shadowOffset = 1;
-       			           var labelX = parseFloat(circle.attr("cx"));
-       			           var labelY = parseFloat(circle.attr("cy")) - 15;
-       			           shadow.attr("x", (labelX + shadowOffset))
-       			                 .attr("y", labelY + shadowOffset)
-       			                 .text(d.place);
-       			           label.attr("x", labelX)
-       			                .attr("y", labelY)
-       			                .text(d.place);
-        			           circle.style("opacity", 1)
-        			                 .on('mouseenter', function(d) {
-                			          var shadow = svg.insert("text")
-                			                        .attr("id", "city" +d.rank +"-shadow")
-                     			                    .style("fill", "white")
-                     			                    .style("opacity", 0.75)
-                     			                    .attr("text-anchor", "middle")
-                     			                    .attr("font-size", "20px")
-                     			                    .attr("font-weight", "bold")
-                     			                    .attr("font-family", "sans-serif");
-                     			      var label = svg.insert("text")
-                     			                    .attr("id", "city"+ d.rank + "-label")
-                     			                    .attr("text-anchor", "middle")
-                     			                    .attr("font-size", "20px")
-                     			                    .attr("font-weight", "bold")
-                     			                    .attr("font-family", "sans-serif");
-                			           var circle = d3.select(this);
-                			           var shadowOffset = -1;
-                			           var labelX = parseFloat(circle.attr("cx"));
-                			           var labelY = parseFloat(circle.attr("cy")) - 15;
-                			           shadow.attr("x", (labelX + shadowOffset))
-                			                 .attr("y", labelY + shadowOffset)
-                			                 .text(d.place);
-                			           label.attr("x", labelX)
-                			                .attr("y", labelY)
-                			                .text(d.place);
-        			                 })
-        			                 .on('mouseleave', function(d) {
-               			           d3.select("#city"+d.rank + "-label").remove();
-               			           d3.select("#city"+d.rank + "-shadow").remove();
-        			                 });
-       			         })
-       			         .attr("r", function(d) {
-       			           return Math.sqrt(parseInt(d.population) * 0.00004);
-       			         })
-       			         .style("fill", "yellow")
-       			         .style("opacity", 0.75)
-       			         .each("end", function(d) {
-       			           d3.select("#city-label").remove();
-       			           d3.select("#city-shadow").remove();
-       			         })
-       			    });
+                d3.csv("us-cities.csv", function(data) {
+                  var cities = svg.append("g")
+                                  .attr("id", "cities");
+                  cities.selectAll("circle")
+                     .data(data)
+                     .enter()
+                     .append("circle")
+                     .attr("cx", function(d) {
+                       return projection([d.lon, d.lat])[0];
+                     })
+                     .attr("cy", function(d) {
+                       return projection([d.lon, d.lat])[1];
+                     })
+                     .attr("r", 15)
+                     .style("fill", "magenta")
+                     .style("opacity", 0)
+                     .transition()
+                     .delay(function(d, i) {
+                       return 250 * i;
+                     })
+                     .duration(400)
+                     .each("start", function(d) {
+                       var shadow = svg.insert("text")
+                                       .attr("id", "city-shadow")
+                                       .style("fill", "white")
+                                       .style("opacity", 0.75)
+                                       .attr("text-anchor", "middle")
+                                       .attr("font-size", "20px")
+                                       .attr("font-weight", "bold")
+                                       .attr("font-family", "sans-serif");
+                        var label = svg.insert("text")
+                                       .attr("id", "city-label")
+                                       .attr("text-anchor", "middle")
+                                       .attr("font-size", "20px")
+                                       .attr("font-weight", "bold")
+                                       .attr("font-family", "sans-serif");
+                        var circle = d3.select(this);
+                        var shadowOffset = 1;
+                        var labelX = parseFloat(circle.attr("cx"));
+                        var labelY = parseFloat(circle.attr("cy")) - 15;
+                        shadow.attr("x", (labelX + shadowOffset))
+                              .attr("y", labelY + shadowOffset)
+                              .text(d.place);
+                        label.attr("x", labelX)
+                             .attr("y", labelY)
+                             .text(d.place);
+                        circle.style("opacity", 1)
+                              .on('mouseenter', function(d) {
+                                var shadow = svg.insert("text")
+                                                .attr("id", "city" +d.rank +"-shadow")
+                                                .style("fill", "white")
+                                                .style("opacity", 0.75)
+                                                .attr("text-anchor", "middle")
+                                                .attr("font-size", "20px")
+                                                .attr("font-weight", "bold")
+                                                .attr("font-family", "sans-serif");
+                                var label = svg.insert("text")
+                                               .attr("id", "city"+ d.rank + "-label")
+                                               .attr("text-anchor", "middle")
+                                               .attr("font-size", "20px")
+                                               .attr("font-weight", "bold")
+                                               .attr("font-family", "sans-serif");
+                                var circle = d3.select(this);
+                                var shadowOffset = -1;
+                                var labelX = parseFloat(circle.attr("cx"));
+                                var labelY = parseFloat(circle.attr("cy")) - 15;
+                                shadow.attr("x", (labelX + shadowOffset))
+                                      .attr("y", labelY + shadowOffset)
+                                      .text(d.place);
+                                label.attr("x", labelX)
+                                     .attr("y", labelY)
+                                     .text(d.place);
+                               })
+                               .on('mouseleave', function(d) {
+                               d3.select("#city"+d.rank + "-label").remove();
+                               d3.select("#city"+d.rank + "-shadow").remove();
+                               });
+                     })
+                     .attr("r", function(d) {
+                       return Math.sqrt(parseInt(d.population) * 0.00004);
+                     })
+                     .style("fill", "yellow")
+                     .style("opacity", 0.75)
+                     .each("end", function(d) {
+                       d3.select("#city-label").remove();
+                       d3.select("#city-shadow").remove();
+                     })
+                });
 
             });
-  			       
-  			  
+               
+          
 
-			  });
-			  
-			</script>
-		</body>
-	</head>
+        });
+        
+      </script>
+    </body>
+  </head>
 </html>
