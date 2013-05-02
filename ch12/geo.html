@@ -6,6 +6,10 @@
 		<script type="text/javascript" src="../d3/d3.v3.js"></script>
 		<body>
 			<script type="text/javascript">
+  		  function dataElement(d) {
+  		    return (parseInt(d.Dividends) + parseInt(d.Interest)) / d.AGI;
+  		  }
+
 			  var path = d3.geo.path();
 			  
 			  var w = 1000;
@@ -30,8 +34,8 @@
 
 			  d3.csv("countyincome07.csv", function(data) {
 			    color.domain([
-			      d3.min(data, function(d) { return (parseInt(d.Dividends) + parseInt(d.Interest)) / d.AGI; }),
-			      d3.max(data, function(d) { return (parseInt(d.Dividends) + parseInt(d.Interest)) / d.AGI; })
+			      d3.min(data, dataElement),
+			      d3.max(data, dataElement)
 			    ]);
 
             d3.json("us-counties-5m.json", function(county) {
@@ -46,7 +50,7 @@
                   var dataStateCode = data[m].State_Code;
                   var dataCountyCode = data[m].County_Code;
                   if (countyStateCode == dataStateCode && countyCode == dataCountyCode) {
-                    county.features[k].properties.NonWagePercentofAGI = (parseInt(data[m].Dividends) + parseInt(data[m].Interest)) / data[m].AGI;
+                    county.features[k].properties.NonWagePercentofAGI = dataElement(data[m]);
                     break;
                   }
                 }
